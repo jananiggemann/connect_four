@@ -71,22 +71,60 @@ end
 
 
 # -----------------------------------------------------------
-#  Class GameBoard
-
-#  Player x > 3      --> Insertion into row 3
-#  1 2 3 4 5 6 7 8
-#  . . . . . . . .
-#  . . . . . . . .
-#  . . . . . . . .
-#  . . . . . . . .
-#  . . . . . . . .
-#  . . . . . . . .
-#  . . x o o x . .
-#  . x x o o x . x
+#  Class Gameboard
+#  --> creates multi-dimensional 8x8 gameboard array with dots as default values
+#  --> prints empty 8x8 gameboard 
+#  --> changes gameboard after each move and prints new state
+#
+#   Player x > 3      
+ 
+#   1 2 3 4 5 6 7 8
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
+#   . . . . . . . .
 #
 
-class GameBoard
+class Gameboard
 
+  #def initialize ()  
+  #  
+  #end
+
+  # method that creates start gameboard array
+  def create_gameboard(x, y, default)
+
+    gameboard = Array.new(x)
+  
+    for i in 0...x
+        gameboard[i] = Array.new(y, default)
+    end
+  
+    return gameboard
+  
+  end
+
+  # method that prints current state of the gameboard
+  def print_gameboard(z)
+    puts ("\n player ""\n\n")
+    puts ("1 2 3 4 5 6 7 8")
+
+    for x in z
+      for y in x
+         
+        printf "%s ", y
+      end
+      puts ""
+    end
+    puts ""
+  end
+
+  #gameboard[1][5] = "x"
+  
 end
 
 
@@ -104,10 +142,15 @@ end
 # start game
 #
 # if __FILE__ == $0 
-puts "Welcome! Please insert your Name: "
-name = gets
+#puts "Welcome! Please insert your Name: "
+#name = gets
 
-ng = Game.new(name)
+NewGameboard = Gameboard.new
+gameboard = NewGameboard.create_gameboard(8, 8, ".")
+NewGameboard.print_gameboard(gameboard)
+
+
+#ng = Game.new(name)
 
 
 
