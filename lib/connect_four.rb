@@ -69,7 +69,7 @@ class Move
     return x
   end
 
-  #search for next empty spot in column
+  # method that searches for next empty spot in column
   def move(gameboard, x, column, colour)
 
     x = splitGameboard(gameboard, x) 
@@ -107,14 +107,61 @@ class WinnerDetection
 end
 
 
+# -----------------------------------------------------------
+# Class game
+# --> Creates new object of the class "Gameboard" and prints it
+# --> Creates new object of the class "Move"
+#
+
+class Game
+  NewGameboard = Gameboard.new
+  @@gameboard = NewGameboard.create_gameboard(8, 8, ".")
+  NewGameboard.print_gameboard(@@gameboard)
+
+  colour = ""
+  @movecount = 0
+
+
+  def moveCounter
+    @@movecount +=1
+    print "\n MoveCounter: ", @@movecount, "\n"
+    return @@movecount
+  end
+
+  def gameboard(move)
+    @@gameboard = move
+    return @@gameboard
+  end
+
+  NewMove = Move.new
+
+  # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
+  def moveMaker
+
+    print " Column: "
+    column = gets
+    column = (column.to_i)-1
+
+    mc = moveCounter
+    colour = mc.even? then "o" else "x" end  
+
+    move = NewMove.move(@@gameboard, 0, column, colour)
+    print "\n player ", colour ," > ", column+1 ,"\n\n"
+    NewGameboard.print_gameboard(move)
+    gameboard(move)
+
+  end
+end
 
 
 
 # -----------------------------------------------------------
 # New game
 # --> Starts new game
+# --> Creates new object of the class "Game"
 
-
+NewGame = Game.new
+moveOnce = Newgame.moveMaker
 
 
 
