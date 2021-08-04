@@ -12,7 +12,7 @@ end
 #  --> prints current state of the gameboard 
 #  
 #   Player x > 3      
- 
+#
 #   1 2 3 4 5 6 7 8
 #   . . . . . . . .
 #   . . . . . . . .
@@ -119,12 +119,12 @@ class Game
   NewGameboard.print_gameboard(@@gameboard)
 
   colour = ""
-  @movecount = 0
+  @@movecount = 0
 
 
   def moveCounter
     @@movecount +=1
-    print "\n MoveCounter: ", @@movecount, "\n"
+    print "\n(MoveCounter: ", @@movecount, ")\n\n"
     return @@movecount
   end
 
@@ -138,15 +138,15 @@ class Game
   # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
   def moveMaker
 
-    print " Column: "
+    mc = moveCounter
+    colour = if mc.even? then "o" else "x" end  
+    
+    print "Player: ", colour, "\n\nPress key 1-8 to pick a column: "
     column = gets
     column = (column.to_i)-1
 
-    mc = moveCounter
-    colour = mc.even? then "o" else "x" end  
-
     move = NewMove.move(@@gameboard, 0, column, colour)
-    print "\n player ", colour ," > ", column+1 ,"\n\n"
+    print "\nplayer ", colour ," > ", column+1 ,"\n\n"
     NewGameboard.print_gameboard(move)
     gameboard(move)
 
@@ -161,7 +161,9 @@ end
 # --> Creates new object of the class "Game"
 
 NewGame = Game.new
-moveOnce = Newgame.moveMaker
+
+moveOnce = NewGame.moveMaker
+
 
 
 
