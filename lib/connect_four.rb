@@ -91,11 +91,11 @@ end
 
 class Gameboard
 
-  #def initialize ()  
-  #  
+  #def initialize (colour)  
+  #  @colour = colour
   #end
 
-  # method that creates start gameboard array
+  # method that creates initial gameboard array
   def create_gameboard(x, y, default)
 
     gameboard = Array.new(x)
@@ -110,7 +110,6 @@ class Gameboard
 
   # method that prints current state of the gameboard
   def print_gameboard(z)
-    puts ("\n player ""\n\n")
     puts ("1 2 3 4 5 6 7 8")
 
     for x in z
@@ -125,6 +124,50 @@ class Gameboard
 
   #gameboard[1][5] = "x"
   
+end
+
+
+# -----------------------------------------------------------
+#  Class Move
+# --> searches for next empty spot in column and replaces the "." with "x" or "o"
+# --> returns changed gameboard 
+class Move
+
+  def initialize(colour, column)  
+    @colour = colour
+    @column = column
+  end
+
+  
+  def splitGameboard(y, x)
+    x = (x + (y.length))/2
+    return x
+  end
+
+  #binary search for next empty spot in column
+  def move(gameboard, x)
+    x = splitGameboard(gameboard,x) 
+    
+    if (x+1)<8 
+      if gameboard[x][@column] == "."
+        if gameboard[x+1][@column] == "."
+          move(gameboard, x)
+        else
+          gameboard[x][@column] = @colour
+        end
+      else
+        if gameboard[x-1][@column] == "."
+          gameboard[x-1][@column] = @colour
+        else
+          move(gameboard, -x)
+        end
+
+      end
+    else
+      gameboard[x][@column] = @colour
+    end
+    return gameboard
+  end
 end
 
 
@@ -145,9 +188,24 @@ end
 #puts "Welcome! Please insert your Name: "
 #name = gets
 
+
 NewGameboard = Gameboard.new
 gameboard = NewGameboard.create_gameboard(8, 8, ".")
 NewGameboard.print_gameboard(gameboard)
+
+colour = "x"
+print "Column: "
+column = gets
+column = (column.to_i)-1
+
+print "\n player ", colour ," > ", column ,"\n"
+
+NewMove = Move.new(colour, column)
+move = NewMove.move(gameboard, 0)
+NewGameboard.print_gameboard(move)
+
+
+
 
 
 #ng = Game.new(name)
