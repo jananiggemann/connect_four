@@ -66,28 +66,21 @@ class Move
 
   # method that searches for next empty spot in column
   def move(gameboard, x, column, colour)
-
-    x = (x+(gameboard.length))/2
+    d=gameboard.length
+    d= d.to_i
     
-    if (x+1)<8 
-      if gameboard[x][column] == "."
-        if gameboard[x+1][column] == "."
-          move(gameboard, x, column, colour)
-        else
-          gameboard[x][column] = colour
-        end
+    for i in 1..8 
+      if gameboard[d-i][column] == "."
+        gameboard[gameboard.length-i][column] = colour
+        return gameboard
+        exit
       else
-        if gameboard[x-1][column] == "."
-          gameboard[x-1][column] = colour
-        else
-          move(gameboard, -x, column, colour)
-        end
-
+        i+=1
       end
-    else
-      gameboard[x][column] = colour
-    end
-    return gameboard
+    end 
+    print "Chose different Column:"
+    mc2 = NewGame.moveCounter(-1)
+    moveOnce = NewGame.moveMaker
   end
 end
 
@@ -117,8 +110,8 @@ class Game
   @@movecount = 0
 
 
-  def moveCounter
-    @@movecount +=1
+  def moveCounter(x)
+    @@movecount +=x
     print "\n(MoveCounter: ", @@movecount, ")\n\n"
     return @@movecount
   end
@@ -146,7 +139,7 @@ class Game
   # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
   def moveMaker
 
-    mc = moveCounter
+    mc = moveCounter(1)
     colour = if mc.even? then "o" else "x" end  
     
     print "Player: ", colour, "\n\nPress key 1-8 to pick a column: "
@@ -154,10 +147,11 @@ class Game
     column = inputRange
 
     move = NewMove.move(@@gameboard, 0, column, colour)
+    
     print "\nplayer ", colour ," > ", column+1 ,"\n\n"
     NewGameboard.print_gameboard(move)
     gameboard(move)
-
+    
   end
 end
 
@@ -170,7 +164,7 @@ end
 
 NewGame = Game.new
 
-for i in 1..10 do
+for i in 1..12 do
   moveOnce = NewGame.moveMaker
 end
 
