@@ -64,15 +64,10 @@ end
 
 class Move
 
-  def splitGameboard(y, x)
-    x = (x + (y.length))/2
-    return x
-  end
-
   # method that searches for next empty spot in column
   def move(gameboard, x, column, colour)
 
-    x = splitGameboard(gameboard, x) 
+    x = (x+(gameboard.length))/2
     
     if (x+1)<8 
       if gameboard[x][column] == "."
