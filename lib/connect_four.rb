@@ -133,6 +133,19 @@ class Game
     return @@gameboard
   end
 
+  def inputRange
+    a = gets
+    a = (a.to_i)-1
+
+    if a>-1 && a<8 
+      column = a 
+      return column
+    else
+      print "Wrong input. Press key between 1 and 8: "
+      inputRange
+    end
+  end
+
   NewMove = Move.new
 
   # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
@@ -142,8 +155,8 @@ class Game
     colour = if mc.even? then "o" else "x" end  
     
     print "Player: ", colour, "\n\nPress key 1-8 to pick a column: "
-    column = gets
-    column = (column.to_i)-1
+
+    column = inputRange
 
     move = NewMove.move(@@gameboard, 0, column, colour)
     print "\nplayer ", colour ," > ", column+1 ,"\n\n"
@@ -162,7 +175,10 @@ end
 
 NewGame = Game.new
 
-moveOnce = NewGame.moveMaker
+for i in 1..10 do
+  moveOnce = NewGame.moveMaker
+end
+
 
 
 
