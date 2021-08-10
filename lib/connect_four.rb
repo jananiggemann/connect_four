@@ -109,7 +109,7 @@ module ConnectFour
 
     def moveCounter(x)
       @@movecount +=x
-      print "\n(MoveCounter: ", @@movecount, ")\n\n"
+      #print "\n(MoveCounter: ", @@movecount, ")\n\n"
       return @@movecount
     end
 
@@ -119,12 +119,13 @@ module ConnectFour
     end
 
     def inputRange
-      a = gets
-      a = (a.to_i)-1
+      a = gets.chomp
 
-      if a>-1 && a<8 
-        column = a 
+      if a.to_i>0 && a.to_i<9
+        column = a.to_i-1
         return column
+      elsif a == "x"
+        exit
       else
         print "Wrong input. Press key between 1 and 8: "
         inputRange
@@ -139,13 +140,13 @@ module ConnectFour
       mc = moveCounter(1)
       colour = if mc.even? then "o" else "x" end  
       
-      print "Player: ", colour, "\n\nPress key 1-8 to pick a column: "
+      print "Exit game with key 'x'\n\nPress key 1-8 to pick a column\n\nPlayer ", colour, " > "
 
       column = inputRange
 
       move = NewMove.move(@@gameboard, 0, column, colour)
       
-      print "\nplayer ", colour ," > ", column+1 ,"\n\n"
+      print "\n\n"
       NewGameboard.print_gameboard(move)
       gameboard(move)
       
