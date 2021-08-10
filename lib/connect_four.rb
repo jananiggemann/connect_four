@@ -2,12 +2,8 @@ module ConnectFour
 
   # --> Starts new game
   def self.run
-    
-    for i in 1..12 do
-      moveOnce =  NewGame.moveMaker
-    end
+    for i in 1..4 do NewGame.moveMaker end
     true
-
   end
 
   # -----------------------------------------------------------
@@ -77,14 +73,13 @@ module ConnectFour
         if gameboard[d-i][column] == "."
           gameboard[gameboard.length-i][column] = colour
           return gameboard
-          exit
         else
           i+=1
         end
       end 
       print "Chose different Column:"
-      mc2 = NewGame.moveCounter(-1)
-      moveOnce = NewGame.moveMaker
+      NewGame.moveCounter(-1)
+      NewGame.moveMaker
     end
   end
 
@@ -110,9 +105,7 @@ module ConnectFour
     @@gameboard = NewGameboard.create_gameboard(8, 8, ".")
     NewGameboard.print_gameboard(@@gameboard)
 
-    colour = ""
     @@movecount = 0
-
 
     def moveCounter(x)
       @@movecount +=x
