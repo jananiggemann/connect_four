@@ -57,19 +57,18 @@ module ConnectFour
 
   # -----------------------------------------------------------
   #  Class WinnerDetection
-  #  -->
-  #
+
 
   class WinnerDetection
 
     def detectVictory(gameState, line, column, colour)
       i = 1
       3.times do
+
         while line+i < 8 && gameState[line+i][column] == colour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -78,7 +77,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -87,7 +85,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -96,7 +93,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -105,7 +101,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -114,7 +109,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -123,7 +117,6 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
@@ -132,15 +125,11 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
-            #return winner
             exit
           end
         end
-
       end
-    
     end
-
   end
 
 
