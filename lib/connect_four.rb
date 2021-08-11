@@ -73,14 +73,6 @@ module ConnectFour
           end
         end
       
-        while line-i > -1 && gameState[line-i][column] == colour
-          i+=1
-          if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
-          end
-        end
-      
         while column+i < 8 && gameState[line][column+i] == colour
           i+=1
           if i == 4
