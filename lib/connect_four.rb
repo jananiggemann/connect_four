@@ -2,7 +2,7 @@ module ConnectFour
 
   # --> Starts new game
   def self.run
-    20.times do NewGame.moveMaker end
+    64.times do NewGame.moveMaker end
     true
   end
 
@@ -40,6 +40,7 @@ module ConnectFour
 
     # method that prints current state of the gameboard
     def print_gameboard(z)
+      system "cls" && "clear"
       puts ("1 2 3 4 5 6 7 8")
 
       for x in z
