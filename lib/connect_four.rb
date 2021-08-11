@@ -100,6 +100,43 @@ module ConnectFour
             exit
           end
         end
+
+        while column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+
+        while column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+        
+        while column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+
+        while column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+
       end
     
     end
