@@ -2,7 +2,7 @@ module ConnectFour
 
   # --> Starts new game
   def self.run
-    for i in 1..4 do NewGame.moveMaker end
+    4.times do NewGame.moveMaker end
     true
   end
 
@@ -34,7 +34,6 @@ module ConnectFour
       for i in 0...x
           gameboard[i] = Array.new(y, default)
       end
-    
       return gameboard
     
     end
@@ -56,6 +55,20 @@ module ConnectFour
   end
 
 
+  # -----------------------------------------------------------
+  #  Class WinnerDetection
+  #  -->
+  #
+
+  class WinnerDetection
+
+    def detectVictory(gameState, line, column, colour)
+      return "winner"
+    end
+
+  end
+
+
 
   # -----------------------------------------------------------
   #  Class Move
@@ -65,13 +78,15 @@ module ConnectFour
   class Move
 
     # method that searches for next empty spot in column
-    def move(gameboard, x, column, colour)
+    NewWinnerDetection = WinnerDetection.new
+    def move(gameboard, column, colour)
       d=gameboard.length
       d= d.to_i
       
       for i in 1..8 
         if gameboard[d-i][column] == "."
           gameboard[gameboard.length-i][column] = colour
+          NewWinnerDetection.detectVictory(gameboard, gameboard.length-i, column, colour)
           return gameboard
         else
           i+=1
@@ -81,16 +96,6 @@ module ConnectFour
       NewGame.moveCounter(-1)
       NewGame.moveMaker
     end
-  end
-
-
-  # -----------------------------------------------------------
-  #  Class WinnerDetection
-  #  -->
-  #
-
-  class WinnerDetection
-
   end
 
 
@@ -144,7 +149,7 @@ module ConnectFour
 
       column = inputRange
 
-      move = NewMove.move(@@gameboard, 0, column, colour)
+      move = NewMove.move(@@gameboard, column, colour)
       
       print "\n\n"
       NewGameboard.print_gameboard(move)
@@ -153,10 +158,10 @@ module ConnectFour
     end
   end
 
+
   # -----------------------------------------------------------
   # New game
   # --> Creates new object of the class "Game"
-
   NewGame= Game.new
 
 end
