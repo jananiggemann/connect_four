@@ -2,7 +2,7 @@ module ConnectFour
 
   # --> Starts new game
   def self.run
-    4.times do NewGame.moveMaker end
+    20.times do NewGame.moveMaker end
     true
   end
 
@@ -63,7 +63,45 @@ module ConnectFour
   class WinnerDetection
 
     def detectVictory(gameState, line, column, colour)
-      return "winner"
+      i = 1
+      3.times do
+        while line+i < 8 && gameState[line+i][column] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+      
+        while line-i > -1 && gameState[line-i][column] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+      
+        while column+i < 8 && gameState[line][column+i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+      
+        while column-i > -1 && gameState[line][column-i] == colour
+          i+=1
+          if i == 4
+            print "\nPlayer ", colour, " is the winner!"
+            #return winner
+            exit
+          end
+        end
+      end
+    
     end
 
   end
