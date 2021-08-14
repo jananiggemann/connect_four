@@ -202,7 +202,7 @@ module ConnectFour
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
     def inputRange
-      a = gets.chomp
+      a = STDIN.getch
       if a.to_i>0 && a.to_i<9
         column = a.to_i-1
         return column

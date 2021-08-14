@@ -10,7 +10,14 @@ describe ConnectFour do
   # Tests for class WinnerDetection:
 
   it "runs detectVictory" do
-    assert subject::Move::NewWinnerDetection.detectVictory([1], 3, 4, "x")
+    assert subject::Move::NewWinnerDetection.detectVictory([[".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      [".", ".", ".", ".", ".", ".", ".", "."], 
+      ["x", "x", "x", "x", ".", ".", ".", "."]], 7, 3, "x")
   end
 
   it "detects winner" do
