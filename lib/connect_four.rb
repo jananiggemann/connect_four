@@ -40,12 +40,14 @@ module ConnectFour
 
     # method that prints current state of the gameboard
     def print_gameboard(z)
+
+      #clears terminal screen after each move
       system "cls" && "clear"
-      puts ("1 2 3 4 5 6 7 8")
+
+      puts ("\nExit game with key 'x'\n\n\n1 2 3 4 5 6 7 8")
 
       for x in z
         for y in x
-          
           printf "%s ", y
         end
         puts ""
@@ -61,6 +63,10 @@ module ConnectFour
 
 
   class WinnerDetection
+    WinnerGameboard = Gameboard.new
+    def wgb(board)
+      WinnerGameboard.print_gameboard(board)
+    end
     # method takes current state of the gameboard and the position of the last move
     # checks all neighboring positions for same colour
     def detectVictory(gameState, line, column, colour)
@@ -87,6 +93,8 @@ module ConnectFour
           i+=1
           if i == 4
             print "\nPlayer ", colour, " is the winner!"
+            wgb(gameState)
+            #Gameboard.new.print_gameboard(gameState)
             exit
           end
         end
@@ -144,11 +152,12 @@ module ConnectFour
       for i in 1..8 
         if gameboard[d-i][column] == "."
           gameboard[gameboard.length-i][column] = colour
-          NewWinnerDetection.detectVictory(gameboard, gameboard.length-i, column, colour)
+          #NewWinnerDetection.detectVictory(gameboard, gameboard.length-i, column, colour)
           return gameboard
         else
           i+=1
         end
+        NewWinnerDetection.detectVictory(gameboard, gameboard.length-i, column, colour)
       end 
       print "Chose different Column:"
       NewGame.moveCounter(-1)
@@ -195,15 +204,14 @@ module ConnectFour
       end
     end
 
-    NewMove = Move.new
 
+    NewMove = Move.new
     # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
     def moveMaker
-
       mc = moveCounter(1)
       colour = if mc.even? then "o" else "x" end  
       
-      print "Exit game with key 'x'\n\nPress key 1-8 to pick a column\n\nPlayer ", colour, " > "
+      print "\nPress key 1-8 to pick a column:\n\nPlayer ", colour, " > "
 
       column = inputRange
 
@@ -212,7 +220,6 @@ module ConnectFour
       print "\n\n"
       NewGameboard.print_gameboard(move)
       gameboard(move)
-      
     end
   end
 
