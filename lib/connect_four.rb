@@ -63,12 +63,16 @@ module ConnectFour
 
 
   class WinnerDetection
+
     WinnerGameboard = Gameboard.new
+
+    # method prints last move, which player has won and exits the game
     def winner(board, colour)
       WinnerGameboard.print_gameboard(board)
       print "\nPlayer ", colour, " is the winner!\n\n"
       exit
     end
+    
     # method takes current state of the gameboard and the position of the last move
     # checks all neighboring positions for same colour
     def detectVictory(gameState, line, column, colour)
@@ -78,16 +82,14 @@ module ConnectFour
         while line+i < 8 && gameState[line+i][column] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
         # checks horizontally right
         while column+i < 8 && gameState[line][column+i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
         # checks horizontally left
@@ -101,32 +103,28 @@ module ConnectFour
         while column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
         # checks diagonally down left
         while column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
         # checks diagonally down right
         while column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
         # checks diagonally up right
         while column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            exit
+            winner(gameState, colour)
           end
         end
       end
