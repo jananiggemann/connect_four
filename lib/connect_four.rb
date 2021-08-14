@@ -1,32 +1,34 @@
 module ConnectFour
 
-  # --> Starts new game
+  # --> Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
     64.times do NewGame.moveMaker end
     true
   end
 
-  # -----------------------------------------------------------
-  #  Class Gameboard
-  #  --> creates multi-dimensional 8x8 gameboard array with dots as default values
-  #  --> prints current state of the gameboard 
-  #  
-  #   Player x > 3      
+  # ---------------------------------------------------------------------------------
+  # Class Gameboard:
+  #  --> Creates multi-dimensional 8x8 game board array with dots as default values
+  #      Example:
   #
-  #   1 2 3 4 5 6 7 8
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
-  #   . . . . . . . .
+  #      Exit game with key 'x'
   #
+  #
+  #      1 2 3 4 5 6 7 8
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #      . . . . . . . .
+  #
+  #  --> Prints current state of the game board
 
   class Gameboard
 
-    # method that creates initial gameboard array
+    # Creates initial game board array
     def create_gameboard(x, y, default)
 
       gameboard = Array.new(x)
@@ -38,14 +40,14 @@ module ConnectFour
     
     end
 
-    # method that prints current state of the gameboard
+    # Prints current state of the game board
     def print_gameboard(z)
 
-      #clears terminal screen after each move
+      # Clears terminal screen after each move so that in case of any changes on the game board
+      # the old one will be replaced by the updated game board.
       system "cls" && "clear"
 
       puts ("\nExit game with key 'x'\n\n\n1 2 3 4 5 6 7 8")
-
       for x in z
         for y in x
           printf "%s ", y
@@ -53,28 +55,32 @@ module ConnectFour
         puts ""
       end
       puts ""
+
     end
-    
+
   end
 
 
-  # -----------------------------------------------------------
-  #  Class WinnerDetection
-
+  # ---------------------------------------------------------------------------------
+  # Class WinnerDetection:
+  #  --> Checks after each move if 4 tokens of the same colour (x or o)
+  #      have been connected 
+  #  --> If thats the case, the final state of the game board is printed and the 
+  #      winner is announced
 
   class WinnerDetection
 
     WinnerGameboard = Gameboard.new
 
-    # method prints last move, which player has won and exits the game
+    # Method prints last move and which player has won, then exits the game.
     def winner(lastMove, xo)
       WinnerGameboard.print_gameboard(lastMove)
       print "\nPlayer ", xo, " is the winner!\n\n"
       exit
     end
 
-    # method takes current state of the gameboard and the position of the last move
-    # checks all neighboring positions for same colour
+    # Method takes current state of the game board and the position of the last move.
+    # Checks all neighboring positions for same colour (x or o).
     def detectVictory(gameState, line, column, colour)
       i = 1
       3.times do
@@ -133,15 +139,18 @@ module ConnectFour
 
 
 
-  # -----------------------------------------------------------
-  #  Class Move
-  #  --> searches for next empty spot in column and replaces the "." with "x" or "o"
-  #  --> returns changed gameboard 
+  # ---------------------------------------------------------------------------------
+  #  Class Move:
+  #  --> Searches for the next empty spot in the column the player chose and replaces 
+  #      the default value with "x" or "o"
+  #  --> In case there is no empty space in the chosen column the player can choose
+  #      a different one  
+  #  --> Returns changed game board 
 
   class Move
-
-    # method that searches for next empty spot in column
     NewWinnerDetection = WinnerDetection.new
+
+    # Searches for next empty spot in column
     def move(gameboard, column, colour)
       d=gameboard.length
       d= d.to_i
@@ -162,33 +171,40 @@ module ConnectFour
   end
 
 
-  # -----------------------------------------------------------
-  # Class game
-  # --> Creates new object of the class "Gameboard" and prints it
-  # --> Creates new object of the class "Move"
-  #
+  # ---------------------------------------------------------------------------------
+  # Class game:
+  #  --> Creates new object of the class "Gameboard" and prints it, so that the 
+  #      initial state of the game is displayed
+  #  --> Creates new object of the class "Move"
+  #  --> Gets the user input and checks if its between 1 and 8, in case its x the 
+  #      game is exited
+  #  --> Calls method "Move" to to implement players move
 
   class Game
+
+    # New object of the class "Gameboard" is created and printed in initial state
     NewGameboard = Gameboard.new
     @@gameboard = NewGameboard.create_gameboard(8, 8, ".")
     NewGameboard.print_gameboard(@@gameboard)
 
     @@movecount = 0
 
+    # Counts how many moves have been made so its possible to know whose turn it is
     def moveCounter(x)
       @@movecount +=x
-      #print "\n(MoveCounter: ", @@movecount, ")\n\n"
       return @@movecount
     end
-
-    def gameboard(move)
+    
+    # Replaces previous game board with an updated version including the last move
+    def updateGameboard(move)
       @@gameboard = move
       return @@gameboard
     end
 
+    # Gets the user input, converts it to integer and checks if its within 1-8.
+    # If its not within that range, the method calls itself again.
     def inputRange
       a = gets.chomp
-
       if a.to_i>0 && a.to_i<9
         column = a.to_i-1
         return column
@@ -202,7 +218,8 @@ module ConnectFour
 
 
     NewMove = Move.new
-    # method "moveMaker" gets the input from player, decides which players turn it is and gets the updated gameboard from class "Move"
+    # Gets the input from player, decides which players turn it is 
+    # and gets the updated game board from class "Move".
     def moveMaker
       mc = moveCounter(1)
       colour = if mc.even? then "o" else "x" end  
@@ -215,14 +232,14 @@ module ConnectFour
       
       print "\n\n"
       NewGameboard.print_gameboard(move)
-      gameboard(move)
+      updateGameboard(move)
     end
   end
 
 
-  # -----------------------------------------------------------
-  # New game
+  # ---------------------------------------------------------------------------------
+  # New Game:
   # --> Creates new object of the class "Game"
-  NewGame= Game.new
+  NewGame = Game.new
 
 end
