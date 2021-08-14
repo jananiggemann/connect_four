@@ -64,8 +64,10 @@ module ConnectFour
 
   class WinnerDetection
     WinnerGameboard = Gameboard.new
-    def wgb(board, colour)
+    def winner(board, colour)
       WinnerGameboard.print_gameboard(board)
+      print "\nPlayer ", colour, " is the winner!\n\n"
+      exit
     end
     # method takes current state of the gameboard and the position of the last move
     # checks all neighboring positions for same colour
@@ -92,10 +94,7 @@ module ConnectFour
         while column-i > -1 && gameState[line][column-i] == colour
           i+=1
           if i == 4
-            print "\nPlayer ", colour, " is the winner!"
-            wgb(gameState, colour)
-            #Gameboard.new.print_gameboard(gameState)
-            exit
+            winner(gameState, colour)
           end
         end
         # checks diagonally up left
