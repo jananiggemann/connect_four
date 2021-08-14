@@ -67,12 +67,12 @@ module ConnectFour
     WinnerGameboard = Gameboard.new
 
     # method prints last move, which player has won and exits the game
-    def winner(board, colour)
-      WinnerGameboard.print_gameboard(board)
-      print "\nPlayer ", colour, " is the winner!\n\n"
+    def winner(lastMove, xo)
+      WinnerGameboard.print_gameboard(lastMove)
+      print "\nPlayer ", xo, " is the winner!\n\n"
       exit
     end
-    
+
     # method takes current state of the gameboard and the position of the last move
     # checks all neighboring positions for same colour
     def detectVictory(gameState, line, column, colour)
