@@ -1,6 +1,6 @@
 module ConnectFour
 
-  # --> Starts new game by calling the method "moveMaker" up to 64 times 
+  # Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
     64.times do NewGame.moveMaker end
     true
@@ -25,7 +25,6 @@ module ConnectFour
   #      . . . . . . . .
   #
   #  --> Prints current state of the game board
-
   class Gameboard
 
     # Creates initial game board array
@@ -43,8 +42,9 @@ module ConnectFour
     # Prints current state of the game board
     def print_gameboard(z)
 
-      # Clears terminal screen after each move so that in case of any changes on the game board
-      # the old one will be replaced by the updated game board.
+      # Clears terminal screen after each move so that in case of any changes
+      # on the game board.
+      # The old one will be replaced by the updated game board.
       system "cls"
       system "clear"
 
@@ -68,7 +68,6 @@ module ConnectFour
   #      have been connected 
   #  --> If thats the case, the final state of the game board is printed and the 
   #      winner is announced
-
   class WinnerDetection
 
     WinnerGameboard = Gameboard.new
@@ -147,7 +146,6 @@ module ConnectFour
   #  --> In case there is no empty space in the chosen column the player can choose
   #      a different one  
   #  --> Returns changed game board 
-
   class Move
     NewWinnerDetection = WinnerDetection.new
 
@@ -180,7 +178,6 @@ module ConnectFour
   #  --> Gets the user input and checks if its between 1 and 8, in case its x the 
   #      game is exited
   #  --> Calls method "Move" to to implement players move
-
   class Game
 
     # New object of the class "Gameboard" is created and printed in initial state
