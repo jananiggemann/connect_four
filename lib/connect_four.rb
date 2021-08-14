@@ -230,6 +230,10 @@ module ConnectFour
       
       print "\n\n"
       NewGameboard.print_gameboard(move)
+      if @@movecount == 64
+        print "\nNo winner! Game over.\n\n"
+        exit
+      end
       updateGameboard(move)
     end
   end
