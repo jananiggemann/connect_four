@@ -40,7 +40,7 @@ module ConnectFour
     end
 
     # Prints current state of the game board
-    def print_gameboard(z)
+    def print_gameboard(gameboard)
 
       # Clears terminal screen after each move so that in case of any changes
       # on the game board.
@@ -48,12 +48,12 @@ module ConnectFour
       system "cls"
       system "clear"
 
-      puts ("\nExit game with key 'x'\n\n\n1 2 3 4 5 6 7 8")
-      for x in z
-        for y in x
-          printf "%s ", y
+      print ("\n    Exit game with key 'x'\n\n\n       1 2 3 4 5 6 7 8\n       ")
+      for line in gameboard
+        for field in line
+          printf "%s ", field
         end
-        puts ""
+        print "\n       "
       end
       puts ""
 
@@ -75,7 +75,7 @@ module ConnectFour
     # Method prints last move and which player has won, then exits the game.
     def winner(lastMove, xo)
       WinnerGameboard.print_gameboard(lastMove)
-      print "\nPlayer ", xo, " is the winner!\n\n"
+      print "\n      Player ", xo, " is the winner!\n\n"
       exit
     end
 
@@ -175,7 +175,7 @@ module ConnectFour
           i+=1
         end
       end 
-      print "Chose different Column:"
+      print "\n      Choose different Column!\n"
       NewGame.moveCounter(-1)
       NewGame.moveMaker
     end
@@ -213,16 +213,18 @@ module ConnectFour
 
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
-    def inputRange
+    def inputRange(colour)
       a = STDIN.getch
+      print a
       if a.to_i>0 && a.to_i<9
         column = a.to_i-1
         return column
       elsif a == "x"
+        print "\n\n\n"
         exit
       else
-        print "Wrong input. Press key between 1 and 8: "
-        inputRange
+        print "\n      Wrong input! Press key between 1 and 8\n\n      Player ", colour, " > "
+        inputRange(colour)
       end
     end
 
@@ -234,16 +236,16 @@ module ConnectFour
       mc = moveCounter(1)
       colour = if mc.even? then "o" else "x" end  
       
-      print "\nPress key 1-8 to pick a column:\n\nPlayer ", colour, " > "
+      print "\n  --> Press key 1-8 to pick a column\n\n      Player ", colour, " > "
 
-      column = inputRange
+      column = inputRange(colour)
 
       move = NewMove.move(@@gameboard, column, colour)
       
       print "\n\n"
       NewGameboard.print_gameboard(move)
       if @@movecount == 64
-        print "\nNo winner! Game over.\n\n"
+        print "\n      No winner! Game over.\n\n"
         exit
       end
       updateGameboard(move)
