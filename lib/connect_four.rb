@@ -45,7 +45,8 @@ module ConnectFour
 
       # Clears terminal screen after each move so that in case of any changes on the game board
       # the old one will be replaced by the updated game board.
-      system "cls" && "clear"
+      system "cls"
+      system "clear"
 
       puts ("\nExit game with key 'x'\n\n\n1 2 3 4 5 6 7 8")
       for x in z
