@@ -83,69 +83,69 @@ module ConnectFour
     # Checks all neighboring positions for same colour (x or o).
     def detectVictory(gameState, line, column, colour)
       i = 1
-        # checks vertically down
-        for x in 1..3
-          while line+i < 8 && gameState[line+i][column] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      # checks vertically down
+      for x in 1..3
+        while line+i < 8 && gameState[line+i][column] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks horizontally right
-        for x in 1..3
-          while column+i < 8 && gameState[line][column+i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks horizontally right
+      for x in 1..3
+        while column+i < 8 && gameState[line][column+i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks horizontally left
-        for x in 1..3
-          while column-i > -1 && gameState[line][column-i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks horizontally left
+      for x in 1..3
+        while column-i > -1 && gameState[line][column-i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks diagonally up left
-        for x in 1..3
-          while column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks diagonally up left
+      for x in 1..3
+        while column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks diagonally down left
-        for x in 1..3
-          while column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks diagonally down left
+      for x in 1..3
+        while column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks diagonally down right
-        for x in 1..3
-          while column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks diagonally down right
+      for x in 1..3
+        while column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
-        # checks diagonally up right
-        for x in 1..3
-          while column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
-            i+=1
-            if i == 4
-              winner(gameState, colour)
-            end
+      end
+      # checks diagonally up right
+      for x in 1..3
+        while column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
+          i+=1
+          if i == 4
+            winner(gameState, colour)
           end
         end
+      end
     end
   end
 
