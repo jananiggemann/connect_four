@@ -6,25 +6,26 @@ module ConnectFour
     true
   end
 
+
   # ---------------------------------------------------------------------------------
   # Class Gameboard:
   #  --> Creates multi-dimensional 8x8 game board array with dots as default values
+  #  --> Prints current state of the game board
   #      Example:
   #
-  #      Exit game with key 'x'
+  #          Exit game with key 'x'
   #
   #
-  #      1 2 3 4 5 6 7 8
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
-  #      . . . . . . . .
+  #             1 2 3 4 5 6 7 8
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
+  #             . . . . . . . .
   #
-  #  --> Prints current state of the game board
   class Gameboard
 
     # Creates initial game board array
@@ -86,62 +87,53 @@ module ConnectFour
     # to default value after checking one side. It keeps counting while checking
     # the other side, so that insertions between 3 fields of the same colour
     # are recognized as winning.
-    def detectVictory(gameState, line, column, colour)
+    def detectVictory(gameState, l, col, xo)
 
       # checks vertically down
       i = 1
-      while i<4 && line+i<8 && gameState[line+i][column] == colour
-          i+=1
-      end
-      if i == 4 then winner(gameState, colour) end
+      while i<4 && l+i<8 && gameState[l+i][col]== xo do i+=1 end
+      if i == 4 then winner(gameState, xo) end
 
       # checks horizontally right
       i = 1
-      while i<4 && column+i < 8 && gameState[line][column+i] == colour
-          i+=1
-      end
+      while i<4 && col+i<8 && gameState[l][col+i]== xo do i+=1 end
 
       # checks horizontally left
       # If e.g. i == 2, it means that there is a filed of the same colour on the
       # right side. In that case, the while loop is executed no more than 2 times.
       x = 1
-      while i<4 && column-x > -1 && gameState[line][column-x] == colour
-          i+=1
-          x+=1
+      while i<4 && col-x>-1 && gameState[l][col-x]== xo
+        i+=1
+        x+=1
       end
-      if i == 4 then winner(gameState, colour) end
+      if i == 4 then winner(gameState, xo) end
 
       # checks diagonally down left
       i = 1
-      while i<4 && column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
-          i+=1
-      end
+      while i<4 && col-i>-1 && l+i<8 && gameState[l+i][col-i]== xo do i+=1 end
 
       # checks diagonally up right
       x = 1
-      while i<4 && column+x < 8 && line-x > -1 && gameState[line-x][column+x] == colour
-          i+=1
-          x+=1
+      while i<4 && col+x<8 && l-x>-1 && gameState[l-x][col+x]== xo
+        i+=1
+        x+=1
       end
-      if i == 4 then winner(gameState, colour) end
+      if i == 4 then winner(gameState, xo) end
 
       # checks diagonally down right
       i = 1
-      while i<4 && column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
-          i+=1
-      end
+      while i<4 && col+i<8 && l+i<8 && gameState[l+i][col+i]== xo do i+=1 end
 
       # checks diagonally up left
       x = 1
-      while i<4 && column-x > -1 && line-x > -1 && gameState[line-x][column-x] == colour
-          i+=1
-          x+=1
+      while i<4 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo
+        i+=1
+        x+=1
       end
-      if i == 4 then winner(gameState, colour) end
+      if i == 4 then winner(gameState, col) end
 
     end
   end
-
 
 
   # ---------------------------------------------------------------------------------
@@ -251,5 +243,5 @@ module ConnectFour
   # New Game:
   # --> Creates new object of the class "Game"
   NewGame = Game.new
-
+  
 end
