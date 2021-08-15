@@ -82,59 +82,73 @@ module ConnectFour
     # Method takes current state of the game board and the position of the last move.
     # Checks all neighboring positions for same colour (x or o).
     def detectVictory(gameState, line, column, colour)
-      
       # checks vertically down
+      x = 0
       for i in 1..3
         if line+i < 8 && gameState[line+i][column] == colour
-          if i == 3
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
+    
       # checks horizontally right
+      x = 0
       for i in 1..3
         if column+i < 8 && gameState[line][column+i] == colour
-          if i == 3
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
       # checks horizontally left
+      x = 0
       for i in 1..3
-        while column-i > -1 && gameState[line][column-i] == colour
-          if i == 3
+        if column-i > -1 && gameState[line][column-i] == colour
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
       # checks diagonally up left
+      x = 0
       for i in 1..3
-        while column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
-          if i == 3
+        if column-i > -1 && line-i > -1 && gameState[line-i][column-i] == colour
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
       # checks diagonally down left
+      x = 0
       for i in 1..3
-        while column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
-          if i == 3
+        if column-i > -1 && line+i < 8 && gameState[line+i][column-i] == colour
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
       # checks diagonally down right
+      x = 0
       for i in 1..3
-        while column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
-          if i == 3
+        if column+i < 8 && line+i < 8 && gameState[line+i][column+i] == colour
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
       end
       # checks diagonally up right
+      x = 0
       for i in 1..3
-        while column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
-          if i == 3
+        if column+i < 8 && line-i > -1 && gameState[line-i][column+i] == colour
+          x+=1
+          if x == 3
             winner(gameState, colour)
           end
         end
