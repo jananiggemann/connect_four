@@ -81,11 +81,17 @@ module ConnectFour
 
     # Method takes current state of the game board and the position of the last move.
     # Checks all neighboring positions for same colour (x or o).
-    # If the field of the last move has fields of the same colour on both sides 
+    #
+    # If there are fields of the same colour on both sides 
     # (right and left, diagonally up and down), the counter variable i is not reset 
-    # to default value after checking one side. It keeps counting while checking
-    # the other side, so that insertions between 3 fields of the same colour
+    # to default value after checking one side. i is added to counter variable x when 
+    # checking the other side, so that insertions between 3 fields of the same colour
     # are recognized as winning.
+    # E.g. horizontally right and then left:
+    # If i==2 after the first while loop, it means that there is a field of 
+    # the same colour on the right side. 
+    # In that case, the "left side" while loop is executed up to 2 times, in case 
+    # there are 2 fields of the same colour on the left side.
     def detectVictory(gameState, l, col, xo)
 
       # checks vertically down
@@ -94,27 +100,25 @@ module ConnectFour
       if i==4 then winner(gameState, xo) end
       
       # checks horizontally right and then left
-      # If e.g. i == 2, it means that there is a filed of the same colour on the
-      # right side. In that case, the while loop is executed no more than 2 times.
       i=1
       while i<4 && col+i<8 && gameState[l][col+i]== xo do i+=1 end
       x=1
       while i+x<5 && col-x>-1 && gameState[l][col-x]== xo do x+=1 end
-      if i+x>4 then winner(gameState, xo) end
+      if i+x==5 then winner(gameState, xo) end
 
       # checks diagonally down left and then up right
       i=1
       while i<4 && col-i>-1 && l+i<8 && gameState[l+i][col-i]== xo do i+=1 end
       x=1
       while i+x<5 && col+x<8 && l-x>-1 && gameState[l-x][col+x]== xo do x+=1 end
-      if i+x>4 then winner(gameState, xo) end
+      if i+x==5 then winner(gameState, xo) end
 
       # checks diagonally down right and then up left
       i=1
       while i<4 && col+i<8 && l+i<8 && gameState[l+i][col+i]== xo do i+=1 end
       x=1
       while i+x<5 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo do x+=1 end
-      if i+x>4 then winner(gameState, col) end
+      if i+x==5 then winner(gameState, col) end
 
     end
   end
