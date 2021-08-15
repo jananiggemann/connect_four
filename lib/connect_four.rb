@@ -70,7 +70,6 @@ module ConnectFour
   #  --> If thats the case, the final state of the game board is printed and the 
   #      winner is announced
   class WinnerDetection
-
     WinnerGameboard = Gameboard.new
 
     # Method prints last move and which player has won, then exits the game.
@@ -90,47 +89,32 @@ module ConnectFour
     def detectVictory(gameState, l, col, xo)
 
       # checks vertically down
-      i = 1
+      i=1
       while i<4 && l+i<8 && gameState[l+i][col]== xo do i+=1 end
-      if i == 4 then winner(gameState, xo) end
-
-      # checks horizontally right
-      i = 1
-      while i<4 && col+i<8 && gameState[l][col+i]== xo do i+=1 end
-
-      # checks horizontally left
+      if i==4 then winner(gameState, xo) end
+      
+      # checks horizontally right and then left
       # If e.g. i == 2, it means that there is a filed of the same colour on the
       # right side. In that case, the while loop is executed no more than 2 times.
-      x = 1
-      while i<4 && col-x>-1 && gameState[l][col-x]== xo
-        i+=1
-        x+=1
-      end
-      if i == 4 then winner(gameState, xo) end
+      i=1
+      while i<4 && col+i<8 && gameState[l][col+i]== xo do i+=1 end
+      x=1
+      while i+x<5 && col-x>-1 && gameState[l][col-x]== xo do x+=1 end
+      if i+x>4 then winner(gameState, xo) end
 
-      # checks diagonally down left
-      i = 1
+      # checks diagonally down left and then up right
+      i=1
       while i<4 && col-i>-1 && l+i<8 && gameState[l+i][col-i]== xo do i+=1 end
+      x=1
+      while i+x<5 && col+x<8 && l-x>-1 && gameState[l-x][col+x]== xo do x+=1 end
+      if i+x>4 then winner(gameState, xo) end
 
-      # checks diagonally up right
-      x = 1
-      while i<4 && col+x<8 && l-x>-1 && gameState[l-x][col+x]== xo
-        i+=1
-        x+=1
-      end
-      if i == 4 then winner(gameState, xo) end
-
-      # checks diagonally down right
-      i = 1
+      # checks diagonally down right and then up left
+      i=1
       while i<4 && col+i<8 && l+i<8 && gameState[l+i][col+i]== xo do i+=1 end
-
-      # checks diagonally up left
-      x = 1
-      while i<4 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo
-        i+=1
-        x+=1
-      end
-      if i == 4 then winner(gameState, col) end
+      x=1
+      while i+x<5 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo do x+=1 end
+      if i+x>4 then winner(gameState, col) end
 
     end
   end
