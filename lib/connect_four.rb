@@ -223,6 +223,7 @@ module ConnectFour
     def inputRange(colour)
       a = STDIN.getch
       print a
+      sleep(0.2)
       if a.to_i>0 && a.to_i<9
         column = a.to_i-1
         return column
