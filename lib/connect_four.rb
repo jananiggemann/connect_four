@@ -58,28 +58,20 @@ module ConnectFour
   #      have been connected 
   #  --> If thats the case, the final state of the game board is printed and the 
   #      winner is announced
+  # Method "detect Victory":
+  #  --> Takes current state of the game board and the position of the last move.
+  #  --> Checks all neighboring positions for same colour (x or o).
+  #  If there are fields of the same colour on both sides 
+  #  (right and left, diagonally up and down), the counter variable i is not reset 
+  #  to default value after checking one side. i is added to counter variable x when 
+  #  checking the other side, so that insertions between 3 fields of the same colour
+  #  are recognized as winning.
+  #  E.g. horizontally right and then left:
+  #  If i==2 after the first while loop, it means that there is a field of 
+  #  the same colour on the right side. 
+  #  In that case, the "left side" while loop is executed up to 2 times, in case 
+  #  there are 2 fields of the same colour on the left side.
   class WinnerDetection
-    WinnerGameboard = Gameboard.new
-    # Method prints last move and which player has won, then exits the game.
-    def winner(lastMove, xo)
-      WinnerGameboard.print_gameboard(lastMove)
-      print "\n    Player ", xo, " is the winner!\n\n"
-      exit
-    end
-
-    # Method takes current state of the game board and the position of the last move.
-    # Checks all neighboring positions for same colour (x or o).
-    #
-    # If there are fields of the same colour on both sides 
-    # (right and left, diagonally up and down), the counter variable i is not reset 
-    # to default value after checking one side. i is added to counter variable x when 
-    # checking the other side, so that insertions between 3 fields of the same colour
-    # are recognized as winning.
-    # E.g. horizontally right and then left:
-    # If i==2 after the first while loop, it means that there is a field of 
-    # the same colour on the right side. 
-    # In that case, the "left side" while loop is executed up to 2 times, in case 
-    # there are 2 fields of the same colour on the left side.
     def detectVictory(gameState, l, col, xo)
       # checks vertically down
       i=1
@@ -106,7 +98,14 @@ module ConnectFour
       x=1
       while i+x<5 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo do x+=1 end
       if i+x==5 then winner(gameState, col) end
+    end
 
+    # Method "winner" prints last move and which player has won, then exits the game.
+    WinnerGameboard = Gameboard.new
+    def winner(lastMove, xo)
+      WinnerGameboard.print_gameboard(lastMove)
+      print "\n    Player ", xo, " is the winner!\n\n"
+      exit
     end
   end
 
@@ -200,5 +199,5 @@ module ConnectFour
   # ---------------------------------------------------------------------------------
   # Creates new object of the class "Game"
   NewGame = Game.new
-  
+
 end
