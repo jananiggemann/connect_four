@@ -3,7 +3,8 @@ require 'io/console'
 module ConnectFour
   # Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
-    64.times do NewGame.moveMaker end
+    $newGame = Game.new
+    64.times do $newGame.moveMaker end
     print "\n      No winner! Game over.\n\n"
     exit
   end
@@ -103,9 +104,9 @@ module ConnectFour
     end
 
     # Method "winner" prints last move and which player has won, then exits the game.
-    WinnerGameboard = Gameboard.new
     def winner(lastMove, xo)
-      WinnerGameboard.print_gameboard(lastMove)
+      #winnerGameboard = Gameboard.new
+      $newGameboard.print_gameboard(lastMove)
       print "\n    Player ", xo, " is the winner!\n\n"
       exit
     end
@@ -120,22 +121,23 @@ module ConnectFour
   #      a different one  
   #  --> Returns changed game board 
   class Move
-    NewWinnerDetection = WinnerDetection.new
     def move(gameboard, col, xo)
+      newWinnerDetection = WinnerDetection.new
       d=gameboard.length
       d= d.to_i
       
       for i in 1..8 
         if gameboard[d-i][col] == "."
-          gameboard[gameboard.length-i][col] = xo
-          NewWinnerDetection.detectVictory(gameboard, gameboard.length-i, col, xo)
-          return gameboard
+          gameboard[d-i][col] = xo
+          newWinnerDetection.detectVictory(gameboard, d-i, col, xo)
+          $gameboard = gameboard
+          return $gameboard
         end
         i+=1
       end 
       print "\n      Choose different Column!\n"
-      NewGame.moveCounter(-1)
-      NewGame.moveMaker
+      $newGame.moveCounter(-1)
+      $newGame.moveMaker
     end
   end
 
@@ -150,9 +152,9 @@ module ConnectFour
   #  --> Calls method "Move" to to implement players move
   class Game
     # New object of the class "Gameboard" is created and printed in initial state
-    NewGameboard = Gameboard.new
-    @@gameboard = NewGameboard.create_gameboard(8, 8, ".")
-    NewGameboard.print_gameboard(@@gameboard)
+    $newGameboard = Gameboard.new
+    $gameboard = $newGameboard.create_gameboard(8, 8, ".")
+    $newGameboard.print_gameboard($gameboard)
 
     @@movecount = 0
 
@@ -162,9 +164,9 @@ module ConnectFour
     end
     
     # Replaces previous game board with an updated version including the last move
-    def updateGameboard(move)
-      @@gameboard = move
-    end
+    #def updateGameboard(move)
+     # @@gameboard = move
+    #end
 
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
@@ -184,22 +186,22 @@ module ConnectFour
       end
     end
 
-    NewMove = Move.new
     # Gets the input from player, decides which players turn it is 
     # and gets the updated game board from class "Move".
     def moveMaker
+      newMove = Move.new
       colour = if moveCounter(1).even? then "o" else "x" end  
       print "\n  --> Press key 1-8 to pick a column\n\n      Player ", colour, " > "
 
-      move = NewMove.move(@@gameboard, inputRange(colour), colour)
-      NewGameboard.print_gameboard(move)
-      updateGameboard(move)
+      move = newMove.move($gameboard, inputRange(colour), colour)
+      $newGameboard.print_gameboard($gameboard)
+      #updateGameboard(move)
     end
   end
 
 
   # ---------------------------------------------------------------------------------
   # Creates new object of the class "Game"
-  NewGame = Game.new
+  #newGame = Game.new
 
 end
