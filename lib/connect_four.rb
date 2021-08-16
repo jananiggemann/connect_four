@@ -1,7 +1,9 @@
+require 'io/console'
+
 module ConnectFour
   # Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
-    4.times do NewGame.moveMaker end
+    64.times do NewGame.moveMaker end
     print "\n      No winner! Game over.\n\n"
     exit
   end
@@ -97,7 +99,7 @@ module ConnectFour
       while i<4 && col+i<8 && l+i<8 && gameState[l+i][col+i]== xo do i+=1 end
       x=1
       while i+x<5 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo do x+=1 end
-      if i+x==5 then winner(gameState, col) end
+      if i+x==5 then winner(gameState, xo) end
     end
 
     # Method "winner" prints last move and which player has won, then exits the game.
