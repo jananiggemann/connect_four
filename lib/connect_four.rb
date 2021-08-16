@@ -75,39 +75,38 @@ module ConnectFour
   #  In that case, the "left side" while loop is executed up to 2 times, in case 
   #  there are 2 fields of the same colour on the left side.
   class WinnerDetection
-    def detectVictory(gameState, l, col, xo)
+    def detectVictory(l)
       # checks vertically down
       i=1
-      while i<4 && l+i<8 && gameState[l+i][col]== xo do i+=1 end
-      if i==4 then winner(gameState, xo) end
+      while i<4 && l+i<8 && $gameboard[l+i][$col]== $x_or_o do i+=1 end
+      if i==4 then winner() end
       
       # checks horizontally right and then left
       i=1
-      while i<4 && col+i<8 && gameState[l][col+i]== xo do i+=1 end
+      while i<4 && $col+i<8 && $gameboard[l][$col+i]== $x_or_o do i+=1 end
       x=1
-      while i+x<5 && col-x>-1 && gameState[l][col-x]== xo do x+=1 end
-      if i+x==5 then winner(gameState, xo) end
+      while i+x<5 && $col-x>-1 && $gameboard[l][$col-x]== $x_or_o do x+=1 end
+      if i+x==5 then winner() end
 
       # checks diagonally down left and then up right
       i=1
-      while i<4 && col-i>-1 && l+i<8 && gameState[l+i][col-i]== xo do i+=1 end
+      while i<4 && $col-i>-1 && l+i<8 && $gameboard[l+i][$col-i]== $x_or_o do i+=1 end
       x=1
-      while i+x<5 && col+x<8 && l-x>-1 && gameState[l-x][col+x]== xo do x+=1 end
-      if i+x==5 then winner(gameState, xo) end
+      while i+x<5 && $col+x<8 && l-x>-1 && $gameboard[l-x][$col+x]== $x_or_o do x+=1 end
+      if i+x==5 then winner() end
 
       # checks diagonally down right and then up left
       i=1
-      while i<4 && col+i<8 && l+i<8 && gameState[l+i][col+i]== xo do i+=1 end
+      while i<4 && $col+i<8 && l+i<8 && $gameboard[l+i][$col+i]== $x_or_o do i+=1 end
       x=1
-      while i+x<5 && col-x>-1 && l-x>-1 && gameState[l-x][col-x]== xo do x+=1 end
-      if i+x==5 then winner(gameState, xo) end
+      while i+x<5 && $col-x>-1 && l-x>-1 && $gameboard[l-x][$col-x]== $x_or_o do x+=1 end
+      if i+x==5 then winner() end
     end
 
     # Method "winner" prints last move and which player has won, then exits the game.
-    def winner(lastMove, xo)
-      #winnerGameboard = Gameboard.new
-      $newGameboard.print_gameboard(lastMove)
-      print "\n    Player ", xo, " is the winner!\n\n"
+    def winner
+      $newGameboard.print_gameboard($gameboard)
+      print "\n    Player ", $x_or_o, " is the winner!\n\n"
       exit
     end
   end
@@ -121,22 +120,21 @@ module ConnectFour
   #      a different one  
   #  --> Returns changed game board 
   class Move
-    def move(gameboard, col, xo)
+    def move
       newWinnerDetection = WinnerDetection.new
-      d=gameboard.length
+      d=$gameboard.length
       d= d.to_i
       
       for i in 1..8 
-        if gameboard[d-i][col] == "."
-          gameboard[d-i][col] = xo
-          newWinnerDetection.detectVictory(gameboard, d-i, col, xo)
-          $gameboard = gameboard
-          return $gameboard
+        if $gameboard[d-i][$col] == "."
+          $gameboard[d-i][$col] = $x_or_o
+          newWinnerDetection.detectVictory(d-i)
+          return
         end
         i+=1
       end 
       print "\n      Choose different Column!\n"
-      $newGame.moveCounter(-1)
+      $movecount-=1
       $newGame.moveMaker
     end
   end
@@ -154,54 +152,38 @@ module ConnectFour
     # New object of the class "Gameboard" is created and printed in initial state
     $newGameboard = Gameboard.new
     $gameboard = $newGameboard.create_gameboard(8, 8, ".")
-    $newGameboard.print_gameboard($gameboard)
-
-    @@movecount = 0
 
     # Counts how many moves have been made so its possible to know whose turn it is
-    def moveCounter(x)
-      @@movecount +=x
-    end
-    
-    # Replaces previous game board with an updated version including the last move
-    #def updateGameboard(move)
-     # @@gameboard = move
-    #end
+    $movecount = 0
 
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
-    def inputRange(colour)
+    def inputRange
       a = STDIN.getch
       print a
       sleep(0.2)
       if a.to_i>0 && a.to_i<9
-        column = a.to_i-1
-        return column
+        $col = a.to_i-1
+        return 
       elsif a == "x"
         print "\n\n\n"
         exit
       else
-        print "\n      Wrong input! Press key between 1 and 8\n\n      Player ", colour, " > "
-        inputRange(colour)
+        print "\n      Wrong input! Press key between 1 and 8\n\n      Player ", $x_or_o, " > "
+        inputRange()
       end
     end
 
     # Gets the input from player, decides which players turn it is 
     # and gets the updated game board from class "Move".
     def moveMaker
-      newMove = Move.new
-      colour = if moveCounter(1).even? then "o" else "x" end  
-      print "\n  --> Press key 1-8 to pick a column\n\n      Player ", colour, " > "
-
-      move = newMove.move($gameboard, inputRange(colour), colour)
       $newGameboard.print_gameboard($gameboard)
-      #updateGameboard(move)
+      newMove = Move.new
+      $movecount+=1
+      $x_or_o = if $movecount.even? then "o" else "x" end  
+      print "\n  --> Press key 1-8 to pick a column\n\n      Player ", $x_or_o, " > "
+      inputRange()
+      newMove.move
     end
   end
-
-
-  # ---------------------------------------------------------------------------------
-  # Creates new object of the class "Game"
-  #newGame = Game.new
-
 end
