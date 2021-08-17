@@ -3,8 +3,8 @@ require 'io/console'
 module ConnectFour
   # Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
-    $newGame = Game.new
-    64.times do $newGame.moveMaker end
+    newGame = Game.new
+    while $movecount<64 do newGame.moveMaker end
     print "\n      No winner! Game over.\n\n"
     exit
   end
@@ -132,13 +132,11 @@ module ConnectFour
         if $gameboard[d-i][$col] == "."
           $gameboard[d-i][$col] = $x_or_o
           newWinnerDetection.winner(d-i)
-          return
+          return 
         end
         i+=1
       end 
-      print "\n      Choose different Column!\n"
-      $movecount-=1
-      $newGame.moveMaker
+      return x = $gameboard
     end
   end
 
@@ -155,16 +153,14 @@ module ConnectFour
     # New object of the class "Gameboard" is created and printed in initial state
     $newGameboard = Gameboard.new
     $gameboard = $newGameboard.create_gameboard(8, 8, ".")
-
     # Counts how many moves have been made so its possible to know whose turn it is
     $movecount = 0
-
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
     def inputRange
       a = STDIN.getch
       print a
-      sleep(0.2)
+      sleep(0.18) #to see player input on console 
       if a.to_i>0 && a.to_i<9
         $col = a.to_i-1
         return 
@@ -186,7 +182,11 @@ module ConnectFour
       $x_or_o = if $movecount.even? then "o" else "x" end  
       print "\n  --> Press key 1-8 to pick a column\n\n      Player ", $x_or_o, " > "
       inputRange()
-      newMove.move
+      if newMove.move == $gameboard
+        print "\n      Choose different Column!"
+        $movecount-=1
+        sleep(1)
+      end
     end
   end
 end
