@@ -75,39 +75,42 @@ module ConnectFour
   #  In that case, the "left side" while loop is executed up to 2 times, in case 
   #  there are 2 fields of the same colour on the left side.
   class WinnerDetection
+    # Method "winner" prints last move and which player has won, then exits the game.
+    def winner(l)
+      if detectVictory(l) == 1
+        $newGameboard.print_gameboard($gameboard)
+        print "\n    Player ", $x_or_o, " is the winner!\n\n"
+        exit
+      end
+    end
+
     def detectVictory(l)
       # checks vertically down
       i=1
       while i<4 && l+i<8 && $gameboard[l+i][$col]== $x_or_o do i+=1 end
-      if i==4 then winner() end
+      if i==4 then return 1 end
       
       # checks horizontally right and then left
       i=1
       while i<4 && $col+i<8 && $gameboard[l][$col+i]== $x_or_o do i+=1 end
       x=1
       while i+x<5 && $col-x>-1 && $gameboard[l][$col-x]== $x_or_o do x+=1 end
-      if i+x==5 then winner() end
+      if i+x==5 then return 1 end
 
       # checks diagonally down left and then up right
       i=1
       while i<4 && $col-i>-1 && l+i<8 && $gameboard[l+i][$col-i]== $x_or_o do i+=1 end
       x=1
       while i+x<5 && $col+x<8 && l-x>-1 && $gameboard[l-x][$col+x]== $x_or_o do x+=1 end
-      if i+x==5 then winner() end
+      if i+x==5 then return 1 end
 
       # checks diagonally down right and then up left
       i=1
       while i<4 && $col+i<8 && l+i<8 && $gameboard[l+i][$col+i]== $x_or_o do i+=1 end
       x=1
       while i+x<5 && $col-x>-1 && l-x>-1 && $gameboard[l-x][$col-x]== $x_or_o do x+=1 end
-      if i+x==5 then winner() end
-    end
-
-    # Method "winner" prints last move and which player has won, then exits the game.
-    def winner
-      $newGameboard.print_gameboard($gameboard)
-      print "\n    Player ", $x_or_o, " is the winner!\n\n"
-      exit
+      if i+x==5 then return 1 end
+      return 2
     end
   end
 
@@ -128,7 +131,7 @@ module ConnectFour
       for i in 1..8 
         if $gameboard[d-i][$col] == "."
           $gameboard[d-i][$col] = $x_or_o
-          newWinnerDetection.detectVictory(d-i)
+          newWinnerDetection.winner(d-i)
           return
         end
         i+=1
