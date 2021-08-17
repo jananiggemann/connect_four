@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'io/console'
 require "bundler/setup"
 require_relative "../lib/connect_four"
 
