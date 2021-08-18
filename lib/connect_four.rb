@@ -61,19 +61,23 @@ module ConnectFour
   #      have been connected 
   #  --> If thats the case, the final state of the game board is printed and the 
   #      winner is announced
+  # Method "winner":
+  #  --> Calls method "detectVictory" and passes the line of the last move as an argument
+  #  --> If method "detectVictory" returns 1, the game board is printed one last time, 
+  #      the winner is announced and the game ends
   # Method "detect Victory":
-  #  --> Takes current state of the game board and the position of the last move.
-  #  --> Checks all neighboring positions for same colour (x or o).
-  #  If there are fields of the same colour on both sides 
-  #  (right and left, diagonally up and down), the counter variable i is not reset 
-  #  to default value after checking one side. i is added to counter variable x when 
-  #  checking the other side, so that insertions between 3 fields of the same colour
-  #  are recognized as winning.
-  #  E.g. horizontally right and then left:
-  #  If i==2 after the first while loop, it means that there is a field of 
-  #  the same colour on the right side. 
-  #  In that case, the "left side" while loop is executed up to 2 times, in case 
-  #  there are 2 fields of the same colour on the left side.
+  #  --> Gets the line of the last move as an argument
+  #  --> Checks all neighboring positions of the last move 
+  #  --> If there are fields of the same colour ($x_or_o) on both sides 
+  #      (right and left, diagonally up and down), the counter variable i is not reset 
+  #      to default value after checking one side. i is added to counter variable x when 
+  #      checking the other side, so that insertions between 3 fields of the same colour
+  #      are recognized as winning (returns 1 to "winner")
+  #  --> E.g. horizontally right and then left:
+  #      If i==2 after the first while loop, it means that there is a field of 
+  #      the same colour on the right side. 
+  #      In that case, the "left side" while loop is executed up to 2 times, in case 
+  #      there are 2 fields of the same colour on the left side.
   class WinnerDetection
     # Method "winner" prints last move and which player has won, then exits the game.
     def winner(l)
@@ -119,8 +123,8 @@ module ConnectFour
   #  Class Move:
   #  --> Searches for the next empty spot in the column the player chose and replaces 
   #      the default value with "x" or "o"
-  #  --> In case there is no empty space in the chosen column the player can choose
-  #      a different one  
+  #  --> calls method "winner" and passes the line of the last move as an argument 
+  #      to check if the move completes a sequence of 4 x's or o's
   #  --> Returns changed game board 
   class Move
     def move
@@ -146,9 +150,9 @@ module ConnectFour
   #  --> Creates new object of the class "Gameboard" and prints it, so that the 
   #      initial state of the game is displayed
   #  --> Creates new object of the class "Move"
-  #  --> Gets the user input and checks if its between 1 and 8, in case its x the 
+  #  --> Gets the user input and checks if its between 1 and 8, in case its "x" the 
   #      game is exited
-  #  --> Calls method "Move" to to implement players move
+  #  --> Calls method "Move" to implement players move
   class Game
     # New object of the class "Gameboard" is created and printed in initial state
     $newGameboard = Gameboard.new
@@ -175,6 +179,8 @@ module ConnectFour
 
     # Gets the input from player, decides which players turn it is 
     # and gets the updated game board from class "Move".
+    # In case there is no empty space in the chosen column the player can choose
+    # a different one.
     def moveMaker
       $newGameboard.print_gameboard($gameboard)
       newMove = Move.new
