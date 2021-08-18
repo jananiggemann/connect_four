@@ -5,7 +5,7 @@ module ConnectFour
   def self.run
     newGame = Game.new
     while $movecount<64 do newGame.moveMaker end
-    print "\n      No winner! Game over.\n\n"
+    print "\n\tNo winner! Game over.\n\n"
     exit
   end
 
@@ -45,10 +45,10 @@ module ConnectFour
       system "cls"
       system "clear"
 
-      print ("\n    Exit game with key 'x'\n\n\n       1 2 3 4 5 6 7 8\n       ")
+      print ("\n\tExit game with key 'x'\n\n\n\t   1 2 3 4 5 6 7 8\n\t   ")
       for line in gameboard
         for field in line do printf "%s ", field end
-        print "\n       "
+        print "\n\t   "
       end
       puts ""
     end
@@ -83,7 +83,7 @@ module ConnectFour
     def winner(l)
       if detectVictory(l) == 1
         $newGameboard.print_gameboard($gameboard)
-        print "\n    Player ", $x_or_o, " is the winner!\n\n"
+        print "\n\tPlayer ", $x_or_o, " is the winner!\n\n"
         exit
       end
     end
@@ -126,6 +126,7 @@ module ConnectFour
   #  --> calls method "winner" and passes the line of the last move as an argument 
   #      to check if the move completes a sequence of 4 x's or o's
   #  --> Returns changed game board 
+  #  --> If there is no empty space in the chosen column ($col), 0 is returned 
   class Move
     def move
       newWinnerDetection = WinnerDetection.new
@@ -140,7 +141,7 @@ module ConnectFour
         end
         i+=1
       end 
-      return x = $gameboard
+      return 0
     end
   end
 
@@ -164,7 +165,7 @@ module ConnectFour
     def inputRange
       a = STDIN.getch
       print a
-      sleep(0.18) #to see player input on console 
+      sleep(0.17) #to see player input on console 
       if a.to_i>0 && a.to_i<9
         $col = a.to_i-1
         return 
@@ -172,7 +173,7 @@ module ConnectFour
         print "\n\n\n"
         exit
       else
-        print "\n      Wrong input! Press key between 1 and 8\n\n      Player ", $x_or_o, " > "
+        print "\n\n\tWrong input! Press key between 1 and 8\n\n\tPlayer ", $x_or_o, " > "
         inputRange()
       end
     end
@@ -186,10 +187,10 @@ module ConnectFour
       newMove = Move.new
       $movecount+=1
       $x_or_o = if $movecount.even? then "o" else "x" end  
-      print "\n  --> Press key 1-8 to pick a column\n\n      Player ", $x_or_o, " > "
+      print "\n    --> Press key 1-8 to pick a column\n\n\tPlayer ", $x_or_o, " > "
       inputRange()
-      if newMove.move == $gameboard
-        print "\n      Choose different Column!"
+      if newMove.move == 0
+        print "\n\n\tChoose different Column!"
         $movecount-=1
         sleep(1)
       end
