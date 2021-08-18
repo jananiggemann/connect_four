@@ -39,7 +39,7 @@ module ConnectFour
 
     # Prints current state of the game board, the old one will be replaced by the 
     # updated game board.
-    def print_gameboard(gameboard)
+    def self.print_gameboard(gameboard)
       # Clears terminal screen after each move so that in case of any changes
       # on the game board.
       system "cls"
@@ -82,7 +82,7 @@ module ConnectFour
     # Method "winner" prints last move and which player has won, then exits the game.
     def winner(l)
       if detectVictory(l) == 1
-        $newGameboard.print_gameboard($gameboard)
+        Gameboard.print_gameboard($gameboard)
         print "\n\tPlayer ", $x_or_o, " is the winner!\n\n"
         exit
       end
@@ -128,7 +128,7 @@ module ConnectFour
   #  --> Returns changed game board 
   #  --> If there is no empty space in the chosen column ($col), 0 is returned 
   class Move
-    def move
+    def self.move
       newWinnerDetection = WinnerDetection.new
       d=$gameboard.length
       d= d.to_i
@@ -156,8 +156,7 @@ module ConnectFour
   #  --> Calls method "Move" to implement players move
   class Game
     # New object of the class "Gameboard" is created and printed in initial state
-    $newGameboard = Gameboard.new
-    $gameboard = $newGameboard.create_gameboard(8, 8, ".")
+    $gameboard = Gameboard.new.create_gameboard(8, 8, ".")
     # Counts how many moves have been made so its possible to know whose turn it is
     $movecount = 0
     # Gets the user input, converts it to integer and checks if its within 1-8.
@@ -183,13 +182,12 @@ module ConnectFour
     # In case there is no empty space in the chosen column the player can choose
     # a different one.
     def moveMaker
-      $newGameboard.print_gameboard($gameboard)
-      newMove = Move.new
+      Gameboard.print_gameboard($gameboard)
       $movecount+=1
       $x_or_o = if $movecount.even? then "o" else "x" end  
       print "\n    --> Press key 1-8 to pick a column\n\n\tPlayer ", $x_or_o, " > "
       inputRange()
-      if newMove.move == 0
+      if Move.move == 0
         print "\n\n\tChoose different Column!"
         $movecount-=1
         sleep(1)
