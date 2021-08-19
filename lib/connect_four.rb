@@ -5,6 +5,7 @@ module ConnectFour
   def self.run
     newGame = Game.new
     while $movecount<64 do newGame.moveMaker end
+    Gameboard.print_gameboard($gameboard)
     print "\n\tNo winner! Game over.\n\n"
     exit
   end
@@ -172,11 +173,11 @@ module ConnectFour
         print "\n\n\n"
         exit
       else
-        print "\n\n\tWrong input! Press key between 1 and 8\n\n\tPlayer ", $x_or_o, " > "
+        print "\n\n\tWrong input! Press key between 1 and 8.\n\n\tPlayer ", $x_or_o, " > "
         inputRange()
       end
     end
-
+    
     # Gets the input from player, decides which players turn it is 
     # and gets the updated game board from class "Move".
     # In case there is no empty space in the chosen column the player can choose
