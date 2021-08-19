@@ -4,7 +4,7 @@ module ConnectFour
   # Starts new game by calling the method "moveMaker" up to 64 times 
   def self.run
     newGame = Game.new
-    while $movecount<64 do newGame.moveMaker end
+    while $movecount<64 do newGame.move_maker end
     Gameboard.print_gameboard($gameboard)
     print "\n\tNo winner! Game over.\n\n"
     exit
@@ -82,14 +82,14 @@ module ConnectFour
   class WinnerDetection
     # Method "winner" prints last move and which player has won, then exits the game.
     def winner(l)
-      if detectVictory(l) == 1
+      if detect_victory(l) == 1
         Gameboard.print_gameboard($gameboard)
         print "\n\tPlayer ", $x_or_o, " is the winner!\n\n"
         exit
       end
     end
 
-    def detectVictory(l)
+    def detect_victory(l)
       # checks vertically down
       i=1
       while i<4 && l+i<8 && $gameboard[l+i][$col]== $x_or_o do i+=1 end
@@ -162,7 +162,7 @@ module ConnectFour
     $movecount = 0
     # Gets the user input, converts it to integer and checks if its within 1-8.
     # If its not within that range, the method calls itself again.
-    def inputRange
+    def input_range
       a = STDIN.getch
       print a
       sleep(0.17) #to see player input on console 
@@ -174,7 +174,7 @@ module ConnectFour
         exit
       else
         print "\n\n\tWrong input! Press key between 1 and 8.\n\n\tPlayer ", $x_or_o, " > "
-        inputRange()
+        input_range()
       end
     end
     
@@ -182,12 +182,12 @@ module ConnectFour
     # and gets the updated game board from class "Move".
     # In case there is no empty space in the chosen column the player can choose
     # a different one.
-    def moveMaker
+    def move_maker
       Gameboard.print_gameboard($gameboard)
       $movecount+=1
       $x_or_o = if $movecount.even? then "o" else "x" end  
       print "\n    --> Press key 1-8 to pick a column\n\n\tPlayer ", $x_or_o, " > "
-      inputRange()
+      input_range()
       if Move.move == 0
         print "\n\n\tChoose different Column!"
         $movecount-=1
